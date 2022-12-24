@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>chat</title>
+</head>
+<body>
+    <form th:action="@{/chat}"
+          th:object="${chatForm}"
+          method="POST">
+
+        <label for="username">username: </label>
+        <input th:field="*{chatMessage.username}" id="username" type="text">
+
+        <label for="message">Message text: </label>
+        <input th:field="*{chatMessage.messageText}" id="message"type="text">
+
+        <select id="messageType" th:field="*{messageType}">
+            <option th:each="msgType: ${T(com.example.rudimentryChat.pojo.MessageType).values()}"
+                    th:text="${msgType.displayValue}"
+                    th:value="${msgType}"></option>
+        </select>
+
+        <input type="submit">
+    </form>
+
+    <div th:each="chatMessage: ${chatMessages}">
+        <span th:text="${chatMessage.username}">Username</span>
+        :
+        <span th:text="${chatMessage.messageText}">k</span>
+    </div>
+</body>
+</html>
