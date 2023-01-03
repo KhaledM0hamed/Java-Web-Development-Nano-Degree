@@ -1,9 +1,10 @@
 package com.udacity.jwdnd.course1.cloudstorage;
 
+import com.udacity.jwdnd.course1.cloudstorage.pages.LoginPage;
+import com.udacity.jwdnd.course1.cloudstorage.pages.SignupPage;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -13,6 +14,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 
 import java.io.File;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class CloudStorageApplicationTests {
 
@@ -20,6 +24,7 @@ class CloudStorageApplicationTests {
 	private int port;
 
 	private WebDriver driver;
+	private String baseURL = "http://localhost:";
 
 	@BeforeAll
 	static void beforeAll() {
@@ -41,7 +46,7 @@ class CloudStorageApplicationTests {
 	@Test
 	public void getLoginPage() {
 		driver.get("http://localhost:" + this.port + "/login");
-		Assertions.assertEquals("Login", driver.getTitle());
+		assertEquals("Login", driver.getTitle());
 	}
 
 	/**
@@ -136,7 +141,7 @@ class CloudStorageApplicationTests {
 		doMockSignUp("Redirection","Test","RT","123");
 		
 		// Check if we have been redirected to the log in page.
-		Assertions.assertEquals("http://localhost:" + this.port + "/login", driver.getCurrentUrl());
+		assertEquals("http://localhost:" + this.port + "/login", driver.getCurrentUrl());
 	}
 
 	/**
@@ -200,6 +205,40 @@ class CloudStorageApplicationTests {
 
 	}
 
+	@Test
+	public void testLoginUser() {
+		String username = "userName";
+		String password = "password123";
 
+		driver.get(baseURL + port + "/login");
+		LoginPage loginPage = new LoginPage(driver);
+		loginPage.login(username, password);
+
+		assertEquals(baseURL + port +"/home", driver.getCurrentUrl());
+	}
+
+	@Test
+	public void testSignupUser(){
+		String firstName = "firstName";
+		String lastName = "lastName";
+		String username = "userName";
+		String password = "password123";
+
+		driver.get(baseURL + port + "/signup");
+		SignupPage signupPage = new SignupPage(driver);
+		signupPage.SignUp(firstName, lastName, username, password);
+		assertEquals(baseURL + port +"/login", driver.getCurrentUrl());
+
+	}
+
+	@Test
+	public void testUnauthorizedUserCanOnlyAccessLoginAndSignup () {
+
+	}
+
+	@Test
+	public void testHomePageAccessibilityIfLogged(){
+
+	}
 
 }
