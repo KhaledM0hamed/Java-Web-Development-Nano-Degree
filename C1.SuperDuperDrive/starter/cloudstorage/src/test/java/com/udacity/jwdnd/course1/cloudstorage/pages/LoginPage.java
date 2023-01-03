@@ -18,13 +18,10 @@ public class LoginPage {
     @FindBy(id = "inputPassword")
     private WebElement passwordField;
 
-    @FindBy(id = "login-button")
+    @FindBy(id = "submit-button")
     private WebElement loginButton;
 
     public void login(String username, String password) {
-        usernameField.clear();
-        passwordField.clear();
-
         usernameField.sendKeys(username);
         passwordField.sendKeys(password);
 

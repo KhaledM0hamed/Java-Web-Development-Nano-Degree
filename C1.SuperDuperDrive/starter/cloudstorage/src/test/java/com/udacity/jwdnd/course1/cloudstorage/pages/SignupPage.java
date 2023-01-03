@@ -22,21 +22,23 @@ public class SignupPage {
     @FindBy(id = "buttonSignUp")
     private WebElement signupButton;
 
+    @FindBy(id = "success-msg")
+    private WebElement successMsg;
+
     public SignupPage(WebDriver driver) {
         PageFactory.initElements(driver, this);
     }
 
     public void SignUp(String firstName, String lastName, String username, String password){
-        firstNameField.clear();
-        lastNameField.clear();
-        usernameField.clear();
-        lastNameField.clear();
-
         firstNameField.sendKeys(firstName);
         lastNameField.sendKeys(lastName);
         usernameField.sendKeys(username);
         passwordField.sendKeys(password);
 
         signupButton.click();
+    }
+
+    public Boolean isSuccessfulSignup(){
+        return successMsg.getText().contains("You successfully signed up");
     }
 }
