@@ -25,7 +25,7 @@ public interface FileMapper {
             " FROM USERS AS u" +
             " JOIN FILES AS f" +
             " ON u.userid = f.userid" +
-            " WHERE f.userid = #{userId}")
+            " WHERE u.userid = #{userId}")
     List<File> getUserFilesById(Integer userId);
 
     @Insert("INSERT INTO FILES (filename, contenttype, filesize, userid, filedata)" +
