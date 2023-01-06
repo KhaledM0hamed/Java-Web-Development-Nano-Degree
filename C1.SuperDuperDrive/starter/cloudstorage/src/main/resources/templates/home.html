@@ -137,19 +137,19 @@
                                     <th style="width: 25%" scope="col">Password</th>
                                 </tr>
                                 </thead>
-                                <tbody th:each="credential: ${credentialsList}">
-                                <tr th:id="credential+'-'+${credential.credentialId}">
+                                <tbody th:each="credential: ${credentials}">
+                                <tr th:id="'credential'+'-'+${credential.credentialId}">
                                     <td>
-                                        <button type="button" class="btn btn-success credential-edit-buttons" th:data-id="${credential.getCredentialid()}"
+                                        <button type="button" class="btn btn-success credential-edit-buttons" th:data-id="${credential.credentialId}"
                                                 th:data-url="${credential.getUrl()}"
                                                 th:data-username="${credential.getUserName()}"
-                                                th:data-decryptedPassword = "${encryptionService.decryptValue(credential.password, credential.key)}"
+                                                th:data-decryptedPassword = "${encryptionService.decryptValue(credential.getPassword(), credential.getKey())}"
                                                 th:onclick="showCredentialModal(this.getAttribute('data-id'), this.getAttribute('data-url'), this.getAttribute('data-username'), this.getAttribute('data-decryptedPassword'))">Edit</button>
                                         <a class="btn btn-danger delete-credential-buttons" th:href="@{'/credentials/'+${credential.credentialId}+'/delete'}">Delete</a>
                                     </td>
-                                    <th scope="row" th:text="${credential.url}" class="credential-urls">Example Credential URL</th>
-                                    <td th:text="${credential.username}" class="credential-usernames">Example Credential Username</td>
-                                    <td th:text="${credential.password}" class="credential-password">Example Credential Password</td>
+                                    <th scope="row" th:text="${credential.getUrl()}" class="credential-urls">Example Credential URL</th>
+                                    <td th:text="${credential.getUserName()}" class="credential-usernames">Example Credential Username</td>
+                                    <td th:text="${credential.getPassword()}" class="credential-password">Example Credential Password</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -173,7 +173,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Username</label>
-                                                <input type="text" name= "username" class="form-control" id="credential-username" maxlength="30" required>
+                                                <input type="text" name= "userName" class="form-control" id="credential-username" maxlength="30" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Password</label>
