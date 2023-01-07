@@ -17,6 +17,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequestMapping("/files")
@@ -39,6 +41,27 @@ public class FileController {
         String userName = authentication.getName();
         User user = userService.getUser(userName);
         MultipartFile multipartFile = newFile.getFile();
+
+
+
+        if (multipartFile.getOriginalFilename().equals("")){
+            model.addAttribute("result", "error");
+            model.addAttribute("message", "Please choose a proper file!");
+            return "result";
+        }
+        Boolean fileIsExist = false;
+        List<File> userFiles = fileService.getUserFiles(authentication.getName());
+        for (File file: userFiles){
+            if (file.getFileName().equals(multipartFile.getOriginalFilename())){
+                fileIsExist = true;
+            }
+        }
+
+        if (fileIsExist){
+            model.addAttribute("result", "error");
+            model.addAttribute("message", "File is already exist!");
+            return "result";
+        }
 
         fileService.createNewFile(new File(
                 null,
