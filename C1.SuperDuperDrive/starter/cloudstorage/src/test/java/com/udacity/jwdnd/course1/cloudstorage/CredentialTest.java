@@ -43,8 +43,7 @@ public class CredentialTest {
         }
         userLogin(driver, baseURL, "JohnDoe", "123456789");
         HomePage homePage = new HomePage(driver);
-        homePage.createNewCredential("www.superduperdrive.com", "testCredential0","credPassword0");
-        driver.get(baseURL + "/home");
+
         homePage.openCredentialsTab();
     }
     @AfterEach
@@ -53,8 +52,14 @@ public class CredentialTest {
     }
 
     @Test
+    @Order(1)
     public void TestAddCredential() throws InterruptedException {
         HomePage homePage = new HomePage(driver);
+        driver.get(baseURL + "/home");
+        homePage.openCredentialsTab();
+        homePage.createNewCredential("www.superduperdrive.com", "testCredential0","credPassword0");
+        driver.get(baseURL + "/home");
+        homePage.openCredentialsTab();
         WebElement actualCredentialUrl = homePage.searchCredentialsByUrl("www.superduperdrive.com");
         WebElement actualUsername = homePage.searchCredentialsByUsername("testCredential0");
         assertNotNull(actualCredentialUrl);
@@ -63,8 +68,15 @@ public class CredentialTest {
     }
 
     @Test
+    @Order(3)
     public void testEditCredential() throws InterruptedException {
         HomePage homePage = new HomePage(driver);
+        driver.get(baseURL + "/home");
+        homePage.openCredentialsTab();
+        homePage.createNewCredential("www.superduperdrive.com", "testCredential0","credPassword0");
+        driver.get(baseURL + "/home");
+        homePage.openCredentialsTab();
+
         homePage.editCredential("edited credential url", "edited credential username", "edited credential password");
         driver.get(baseURL + "/home");
         homePage.openCredentialsTab();
@@ -74,19 +86,20 @@ public class CredentialTest {
         assertEquals("edited credential username", actualCredentialUsername.getText());
     }
 
-//    @Test
-//    void testDeleteCredential() throws InterruptedException {
-//        HomePage homePage = new HomePage(driver);
-//        homePage.deleteCredential();
-//        driver.get(baseURL + "/home");
-//        homePage.openCredentialsTab();
-//        Thread.sleep(2000);
-//        WebElement actualCredentialUrl = homePage.searchCredentialsByUrl("www.superduperdrive.com");
-//        WebElement actualCredentialUsername = homePage.searchCredentialsByUsername("testCredential0");
-//        WebElement actualCredentialPassword = homePage.searchCredentialsByPassword("credPassword0");
-//        assertNull(actualCredentialUrl);
-//        assertNull(actualCredentialUsername);
-//        assertNull(actualCredentialPassword);
-//    }
+    @Test
+    @Order(2)
+    void testDeleteCredential() throws InterruptedException {
+        HomePage homePage = new HomePage(driver);
+        homePage.deleteCredential();
+        driver.get(baseURL + "/home");
+        homePage.openCredentialsTab();
+        Thread.sleep(2000);
+        WebElement actualCredentialUrl = homePage.searchCredentialsByUrl("www.superduperdrive.com");
+        WebElement actualCredentialUsername = homePage.searchCredentialsByUsername("testCredential0");
+        WebElement actualCredentialPassword = homePage.searchCredentialsByPassword("credPassword0");
+        assertNull(actualCredentialUrl);
+        assertNull(actualCredentialUsername);
+        assertNull(actualCredentialPassword);
+    }
 
 }

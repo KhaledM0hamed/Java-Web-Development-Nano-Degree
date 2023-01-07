@@ -69,7 +69,7 @@ public class UserTest {
         driver.get("http://localhost:" + this.port + "/signup");
         SignupPage signupPage = new SignupPage(driver);
         signupPage.SignUp(firstName, lastName, username, password);
-        Assertions.assertEquals(true, signupPage.isSuccessfulSignup());
+        Assertions.assertEquals("Login", driver.getTitle());
 
         driver.get("http://localhost:" + this.port + "/login");
         LoginPage loginPage = new LoginPage(driver);

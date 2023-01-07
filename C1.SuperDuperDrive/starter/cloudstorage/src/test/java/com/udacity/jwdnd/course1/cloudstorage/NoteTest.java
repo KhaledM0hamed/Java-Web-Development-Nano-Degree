@@ -45,7 +45,6 @@ public class NoteTest {
         }
         userLogin(driver, baseURL, "JohnDoe", "123456789");
         HomePage homePage = new HomePage(driver);
-        homePage.createNewNote("testNote0","Note Description");
         driver.get(baseURL + "/home");
         homePage.openNotesTab();
     }
@@ -54,8 +53,12 @@ public class NoteTest {
         logout(driver);
     }
     @Test
+    @Order(1)
     public void TestAddNote() throws InterruptedException {
         HomePage homePage = new HomePage(driver);
+        homePage.createNewNote("testNote0","Note Description");
+        driver.get(baseURL + "/home");
+        homePage.openNotesTab();
         WebElement actualNote = homePage.searchNotesByTitle("testNote0");
         WebElement actualDescription = homePage.searchNotesByDescription("Note Description");
         assertNotNull(actualNote);
@@ -63,8 +66,12 @@ public class NoteTest {
 
     }
     @Test
+    @Order(3)
     public void testEditNote() throws InterruptedException {
         HomePage homePage = new HomePage(driver);
+        homePage.createNewNote("testNote0","Note Description");
+        driver.get(baseURL + "/home");
+        homePage.openNotesTab();
         homePage.editNote("edited note title", "edited note description");
         driver.get(baseURL + "/home");
         homePage.openNotesTab();
@@ -73,14 +80,16 @@ public class NoteTest {
         assertEquals("edited note title", actualNoteTitle.getText());
         assertEquals("edited note description", actualDescription.getText());
     }
-//    @Test void testDeleteNote() throws InterruptedException {
-//        HomePage homePage = new HomePage(driver);
-//        homePage.deleteNote();
-//        driver.get(baseURL + "/home");
-//        homePage.openNotesTab();
-//        WebElement actualNote = homePage.searchNotesByTitle("testNote0");
-//        WebElement actualDescription = homePage.searchNotesByDescription("Note Description");
-//        assertNull(actualNote);
-//        assertNull(actualDescription);
-//    }
+    @Test
+    @Order(2)
+    void testDeleteNote() throws InterruptedException {
+        HomePage homePage = new HomePage(driver);
+        homePage.deleteNote();
+        driver.get(baseURL + "/home");
+        homePage.openNotesTab();
+        WebElement actualNote = homePage.searchNotesByTitle("testNote0");
+        WebElement actualDescription = homePage.searchNotesByDescription("Note Description");
+        assertNull(actualNote);
+        assertNull(actualDescription);
+    }
 }

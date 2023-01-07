@@ -18,7 +18,7 @@ public class LoginPage {
     @FindBy(id = "inputPassword")
     private WebElement passwordField;
 
-    @FindBy(id = "submit-button")
+    @FindBy(id = "login-button")
     private WebElement loginButton;
 
     public void login(String username, String password) {

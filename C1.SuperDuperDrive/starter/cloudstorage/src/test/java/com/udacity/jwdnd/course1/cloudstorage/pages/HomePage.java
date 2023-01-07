@@ -111,13 +111,7 @@ public class HomePage {
     }
     public void deleteNote() throws InterruptedException {
         Thread.sleep(500);
-        for (WebElement delButton: deleteEditButtons){
-            try {
-                delButton.click();
-            } catch (Exception e) {
-
-            }
-        }
+        deleteEditButtons.get(1).click();
     }
 
     // Credentials
@@ -176,12 +170,7 @@ public class HomePage {
     }
     public void deleteCredential() throws InterruptedException{
         Thread.sleep(500);
-        for (WebElement delCredButton : deleteCredentialButtons){
-            try {
-                delCredButton.click();
-            } catch (Exception e) {
-            }
-        }
+        deleteCredentialButtons.get(1).click();
     }
 
     // logout
