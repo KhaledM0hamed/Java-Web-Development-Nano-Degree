@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 public class DogController {
 
-    public final DogService dogService;
+    private final DogService dogService;
 
     public DogController(DogService dogService) {
         this.dogService = dogService;

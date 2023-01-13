@@ -2,8 +2,8 @@ package com.example.c2dog.service;
 
 
 import com.example.c2dog.entity.Dog;
+import com.example.c2dog.exception.DogNotFoundException;
 import com.example.c2dog.repository.DogRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Service
 public class DogServiceImp implements DogService {
-    public final DogRepository dogRepository;
+    private final DogRepository dogRepository;
 
     public DogServiceImp(DogRepository dogRepository) {
         this.dogRepository = dogRepository;
@@ -30,7 +30,7 @@ public class DogServiceImp implements DogService {
     @Override
     public String retrieveDogBreedById(Long id) {
         Optional<String> optionalBreed = Optional.ofNullable(dogRepository.findBreedById(id));
-        String breed = optionalBreed.orElseThrow(DogNotFoundException::new);
+        String breed = optionalBreed.orElseThrow(() -> new DogNotFoundException("Dog not found!", id));
         return breed;
     }
 
