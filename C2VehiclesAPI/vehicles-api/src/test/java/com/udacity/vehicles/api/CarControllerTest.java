@@ -5,9 +5,7 @@ import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -167,5 +165,20 @@ public class CarControllerTest {
         car.setDetails(details);
         car.setCondition(Condition.USED);
         return car;
+    }
+
+    @Test
+    public void updateCar() throws Exception {
+        createCar();
+        Car c = getCar();
+        c.setCondition(Condition.NEW);
+        c.setId(1L);
+
+        // post update data
+        mvc.perform(
+                put("/cars/1")
+                        .content(json.write(c).getJson())
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+        ).andExpect(status().isOk());
     }
 }
